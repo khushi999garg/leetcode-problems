@@ -12,6 +12,9 @@ class Solution {
         if (sum < k)
             return 0;
 
+        if (sum == k)
+            return 1;
+
         while (left < right) {
             int mid = left + (right - left + 1) / 2;
             long count = 0;
