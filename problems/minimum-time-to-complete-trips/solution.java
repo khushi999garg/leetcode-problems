@@ -13,6 +13,7 @@ class Solution {
 
             for(int x: time){
                 trips += mid / x;
+                if (trips >= totalTrips) break;
             }
 
             if (trips < totalTrips){
