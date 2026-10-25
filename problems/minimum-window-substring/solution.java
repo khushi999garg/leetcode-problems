@@ -1,59 +1,44 @@
 class Solution {
     public String minWindow(String s, String t) {
-        int n = s.length();
-        int[] uFreq = new int[26];
-        int[] lFreq = new int[26];
+        int m = s.length();
+        int n = t.length();
+        int[] freq = new int[58];
+        int count = 0;
         int left = 0;
         int bestLeft = 0;
-        int bestLen = Integer.MAX_VALUE;
-        int count = 0;
+        int ans = Integer.MAX_VALUE;
+        // String res = "";
+
+        if (m < n) return "";
 
         for (char c : t.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                if (uFreq[c - 'A'] == 0)
-                    count++;
-                uFreq[c - 'A']++;
-            } else {
-                if (lFreq[c - 'a'] == 0)
-                    count++;
-                lFreq[c - 'a']++;
-            }
+            if (freq[c - 'A'] == 0)
+                count++;
+            freq[c - 'A']++;
         }
 
-        for (int right = 0; right < n; right++) {
-            char r = s.charAt(right);
+        for (int i = 0; i < m; i++) {
+            char c = s.charAt(i);
 
-            if (Character.isUpperCase(r)) {
-                if (uFreq[r - 'A'] == 1)
-                    count--;
-                uFreq[r - 'A']--;
-            } else {
-                if (lFreq[r - 'a'] == 1)
-                    count--;
-                lFreq[r - 'a']--;
-            }
+            if (freq[c - 'A'] == 1)
+                count--;
+            freq[c - 'A']--;
 
-            while (count == 0) {
-                char l = s.charAt(left);
-
-                if (right - left + 1 < bestLen) {
+            while (count == 0 && left < m) {
+                if (ans > (i - left + 1)) {
+                    ans = i - left + 1;
                     bestLeft = left;
-                    bestLen = right - left + 1;
+                    // res = s.substring(left, i + 1);
                 }
-                if (Character.isUpperCase(l)) {
-                    if (uFreq[l - 'A'] == 0)
-                        count++;
-                    uFreq[l - 'A']++;
-                } else {
-                    if (lFreq[l - 'a'] == 0)
-                        count++;
-                    lFreq[l - 'a']++;
-                }
-
+                char l = s.charAt(left);
+                if (freq[l - 'A'] == 0)
+                    count++;
+                freq[l - 'A']++;
                 left++;
+
             }
         }
 
-        return bestLen == Integer.MAX_VALUE ? "" : s.substring(bestLeft, bestLeft + bestLen);
+        return ans != Integer.MAX_VALUE ? s.substring(bestLeft, bestLeft + ans) : "";
     }
 }
