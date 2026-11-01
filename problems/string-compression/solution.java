@@ -5,36 +5,28 @@ class Solution {
         if (n == 1)
             return n;
 
-        String s = "";
-        int left = 0;
-        int ans;
+        int read = 0;
+        int write = 0;
+        int count = 0;
 
-        for (int i = 1; i < n; i++) {
-            if (chars[i] != chars[i - 1] || i == n - 1) {
-                int len;
-                if (i == n - 1 && chars[i] == chars[i - 1]) {
-                    len = i - left + 1;
-                } else {
-                    len = i - left;
-                }
-                s = s.concat(String.valueOf(chars[left]));
-                if (len != 1) {
-                    s = s.concat(String.valueOf(len));
-                }
+        while (read < n) {
+            char current = chars[read];
 
-                    left = i;
-                if (i == n - 1 && chars[i] != chars[i - 1]) {
-                    s = s.concat(String.valueOf(chars[i]));
+            while (read < n && chars[read] == current) {
+                count++;
+                read++;
+            }
+
+            chars[write++] = current;
+
+            if (count > 1) {
+                for (char c : String.valueOf(count).toCharArray()) {
+                    chars[write++] = c;
                 }
             }
+            count = 0;
         }
 
-        // System.out.println(s);
-        int i = 0;
-        for (char c : s.toCharArray()) {
-            chars[i] = c;
-            i++;
-        }
-        return s.length();
+        return write;
     }
 }
