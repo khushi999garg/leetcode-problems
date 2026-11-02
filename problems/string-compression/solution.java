@@ -20,8 +20,14 @@ class Solution {
             chars[write++] = current;
 
             if (count > 1) {
-                for (char c : String.valueOf(count).toCharArray()) {
-                    chars[write++] = c;
+                int divisor = 1;
+                while(divisor <= count / 10){
+                    divisor *= 10;
+                }
+                while(divisor > 0){
+                    chars[write++] = (char)('0' + count / divisor);
+                    count %= divisor;
+                    divisor /= 10;
                 }
             }
             count = 0;
